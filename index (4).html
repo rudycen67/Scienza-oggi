@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScienzaOggi - 1 Febbraio 2026</title>
+    <meta name="description" content="Le 5 scoperte scientifiche più importanti di oggi, spiegate per tutti">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(180deg, #020617 0%, #0f172a 50%, #020617 100%);
+            min-height: 100vh;
+            padding: 16px;
+            color: white;
+            line-height: 1.6;
+        }
+        
+        .container { max-width: 540px; margin: 0 auto; }
+        
+        .header { text-align: center; margin-bottom: 24px; }
+        .badge { color: #fbbf24; font-size: 11px; font-weight: bold; letter-spacing: 2px; }
+        .logo { font-size: 32px; font-weight: 900; margin: 6px 0; }
+        .logo span { color: #22d3ee; }
+        .date { color: #94a3b8; font-size: 13px; margin-bottom: 4px; }
+        .tagline { color: #64748b; font-size: 12px; font-style: italic; }
+        .hint { color: #475569; font-size: 12px; margin-top: 12px; }
+        
+        .share-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #0891b2; color: white; border: none;
+            padding: 12px 28px; border-radius: 50px; font-size: 15px;
+            font-weight: 600; cursor: pointer; margin-top: 14px;
+            transition: all 0.2s;
+        }
+        .share-btn:hover { background: #06b6d4; transform: scale(1.02); }
+        
+        .card {
+            border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 14px; overflow: hidden; cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .card:active { transform: scale(0.98); }
+        
+        .card-header { padding: 18px; }
+        .card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .card-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+        .card-cat { font-size: 11px; font-weight: bold; letter-spacing: 1px; }
+        .card-num { margin-left: auto; color: #475569; font-size: 11px; font-weight: bold; }
+        .card-arrow { color: #64748b; font-size: 14px; transition: transform 0.3s; }
+        .card.open .card-arrow { transform: rotate(180deg); }
+        
+        .card-title { font-size: 17px; font-weight: 700; line-height: 1.35; margin-bottom: 10px; }
+        .card-summary { font-size: 14px; color: #cbd5e1; line-height: 1.6; }
+        
+        .card-details { display: none; padding: 0 18px 18px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 18px; }
+        .card.open .card-details { display: block; animation: fadeIn 0.3s; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .section-title { font-size: 12px; font-weight: bold; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+        .section-title.gold { color: #fbbf24; }
+        .section-title.blue { color: #38bdf8; }
+        .section-title.green { color: #4ade80; }
+        
+        .explain-box { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 14px; margin-bottom: 16px; }
+        .explain-text { font-size: 14px; color: #e2e8f0; line-height: 1.75; }
+        .explain-text p { margin-bottom: 12px; }
+        .explain-text p:last-child { margin-bottom: 0; }
+        .explain-text strong { color: #fbbf24; }
+        
+        .details-list { list-style: none; margin-bottom: 16px; }
+        .details-list li { display: flex; gap: 10px; font-size: 14px; color: #cbd5e1; line-height: 1.6; margin-bottom: 10px; }
+        .details-list li::before { content: "→"; color: #22d3ee; font-weight: bold; flex-shrink: 0; }
+        
+        .implications { padding: 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 16px; }
+        .implications p { font-size: 14px; color: #f1f5f9; line-height: 1.7; }
+        
+        .curiosity { background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 12px; padding: 14px; margin-bottom: 16px; }
+        .curiosity p { font-size: 13px; color: #fef3c7; line-height: 1.6; }
+        
+        .card-footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .card-source { font-size: 12px; color: #64748b; }
+        .card-link { font-size: 12px; color: #22d3ee; text-decoration: none; font-weight: 500; }
+        .card-link:hover { color: #67e8f9; text-decoration: underline; }
+        
+        /* Card colors */
+        .c1 { background: rgba(190, 18, 60, 0.35); }
+        .c1 .card-icon { background: linear-gradient(135deg, #f43f5e, #e11d48); }
+        .c1 .card-cat { color: #fb7185; }
+        .c1 .implications { background: rgba(244, 63, 94, 0.15); }
+        
+        .c2 { background: rgba(6, 182, 212, 0.3); }
+        .c2 .card-icon { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+        .c2 .card-cat { color: #22d3ee; }
+        .c2 .implications { background: rgba(6, 182, 212, 0.15); }
+        
+        .c3 { background: rgba(139, 92, 246, 0.35); }
+        .c3 .card-icon { background: linear-gradient(135deg, #a855f7, #7c3aed); }
+        .c3 .card-cat { color: #c084fc; }
+        .c3 .implications { background: rgba(168, 85, 247, 0.15); }
+        
+        .c4 { background: rgba(30, 64, 175, 0.4); }
+        .c4 .card-icon { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .c4 .card-cat { color: #60a5fa; }
+        .c4 .implications { background: rgba(59, 130, 246, 0.15); }
+        
+        .c5 { background: rgba(22, 163, 74, 0.35); }
+        .c5 .card-icon { background: linear-gradient(135deg, #22c55e, #16a34a); }
+        .c5 .card-cat { color: #4ade80; }
+        .c5 .implications { background: rgba(34, 197, 94, 0.15); }
+        
+        .footer { text-align: center; margin-top: 24px; padding-bottom: 20px; }
+        .footer-badge { display: inline-block; padding: 12px 24px; background: rgba(30,41,59,0.6); border: 1px solid #334155; border-radius: 50px; font-size: 13px; color: #94a3b8; }
+        .footer-text { font-size: 12px; color: #475569; margin-top: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="badge">✨ BREAKING SCIENCE ✨</div>
+            <h1 class="logo">SCIENZA<span>OGGI</span></h1>
+            <p class="date">📅 1 Febbraio 2026</p>
+            <p class="tagline">La scienza spiegata per tutti</p>
+            <p class="hint">👆 Tocca una notizia per scoprire di più</p>
+            <button class="share-btn" onclick="condividi()">📤 Condividi con gli amici</button>
+        </div>
+
+        <div id="cards"></div>
+
+        <div class="footer">
+            <div class="footer-badge">🔬 Scoperte che cambiano il mondo</div>
+            <p class="footer-text">Notizie aggiornate quotidianamente • Powered by AI</p>
+        </div>
+    </div>
+
+<script>
+const data = [
+    {
+        n: 1, c: "c1", icon: "🫁", cat: "MEDICINA",
+        title: "Un uomo è sopravvissuto 48 ore senza polmoni: la prima volta nella storia",
+        summary: "Medici di Chicago hanno creato un \"polmone artificiale totale\" che ha tenuto in vita un paziente il tempo necessario per un trapianto. Una svolta che potrebbe salvare migliaia di vite.",
+        explain: `<p><strong>Immagina questa situazione:</strong> un uomo di 33 anni arriva in ospedale con un'influenza che si è trasformata in un incubo. I suoi polmoni sono così infetti che stanno letteralmente "sciogliendo" — riempiti di pus, distrutti da batteri resistenti a tutti gli antibiotici. Il cuore sta cedendo. I medici sanno che ha bisogno di polmoni nuovi, ma il suo corpo è troppo debole per sopravvivere a un trapianto.</p>
+        
+        <p><strong>Il problema impossibile:</strong> Senza polmoni non si può vivere. I polmoni non servono solo a respirare — mantengono anche il cuore stabile. Togli i polmoni e il cuore collassa in pochi minuti. Ma tenere quei polmoni malati significava morte certa per l'infezione.</p>
+        
+        <p><strong>La soluzione geniale:</strong> Il Dr. Ankit Bharat e il suo team hanno costruito un sistema di "polmoni artificiali esterni" che fa tre cose contemporaneamente: prende il sangue dal cuore destro, lo riempie di ossigeno (come farebbero i polmoni), e lo rimanda al cuore sinistro mantenendo stabile la pressione. È come costruire un ponte autostradale quando la strada principale crolla — il traffico (il sangue) continua a scorrere.</p>
+        
+        <p><strong>Cosa lo rende unico:</strong> Esistevano già macchine per ossigenare il sangue (ECMO), ma non funzionano senza polmoni nel corpo. Questo nuovo sistema è il primo a sostituire COMPLETAMENTE i polmoni, mantenendo il cuore funzionante per giorni.</p>`,
+        details: [
+            "Il paziente è rimasto letteralmente senza polmoni per 48 ore — una cosa mai successa prima nella medicina",
+            "In quelle 48 ore, eliminata la fonte dell'infezione, tutto il corpo ha iniziato a guarire: reni, cuore, pressione",
+            "Due giorni dopo sono arrivati polmoni da donatore, il trapianto è riuscito",
+            "Oggi, 2 anni e mezzo dopo, l'uomo lavora nell'azienda di famiglia ed è in ottima salute"
+        ],
+        implication: "Finora, se un'infezione distruggeva i polmoni e il paziente era troppo malato per un trapianto immediato, non c'era nulla da fare. Questa invenzione crea una \"pausa\" — rimuove l'organo malato, dà tempo al corpo di riprendersi, e poi permette il trapianto. È una porta che si apre per pazienti che prima venivano considerati \"senza speranza\".",
+        curiosity: "🤯 Fatto incredibile: I polmoni del paziente erano così distrutti dall'infezione che si erano trasformati in una massa liquida. I medici li hanno dovuti letteralmente aspirare fuori dal petto con dei tubi. Eppure 48 ore dopo, con polmoni nuovi, il paziente respirava da solo. Una delle esperte che ha commentato il caso l'ha definito \"eroico\" — quel paziente, ha detto, \"sarebbe morto al 1000% senza questa invenzione\".",
+        source: "Nature / Northwestern Medicine",
+        link: "https://www.nature.com/articles/d41586-026-00239-y"
+    },
+    {
+        n: 2, c: "c2", icon: "💡", cat: "TECNOLOGIA",
+        title: "La Cina sta costruendo computer che funzionano con la luce invece che con l'elettricità",
+        summary: "I \"chip fotonici\" usano fotoni (particelle di luce) al posto degli elettroni. Sono fino a 100 volte più veloci e consumano molta meno energia. Potrebbero rivoluzionare l'intelligenza artificiale.",
+        explain: `<p><strong>Come funzionano i computer normali:</strong> Il tuo telefono, il tuo computer, tutti i dispositivi elettronici funzionano facendo passare elettricità attraverso minuscoli interruttori (transistor). Gli elettroni si muovono, si accendono e spengono miliardi di volte al secondo, e così fanno i calcoli. Il problema? Producono calore. Tanto calore. E hanno un limite di velocità.</p>
+        
+        <p><strong>L'idea rivoluzionaria:</strong> E se invece di elettroni usassimo la luce? I fotoni (le particelle che compongono la luce) viaggiano alla velocità della luce, non producono calore, e possono trasportare molte più informazioni contemporaneamente. È come passare da una strada a una corsia a un'autostrada a 100 corsie.</p>
+        
+        <p><strong>Cosa stanno facendo i cinesi:</strong> Ricercatori di Shanghai e Pechino hanno creato chip chiamati "LightGen" con oltre 2 milioni di "neuroni fotonici" — circuiti che elaborano informazioni usando la luce. Per certi compiti specifici (creare immagini, video, riconoscimento visivo) questi chip sono 100 volte più veloci delle migliori schede grafiche Nvidia, consumando una frazione dell'energia.</p>
+        
+        <p><strong>Attenzione però:</strong> Questi chip non sostituiscono i computer normali. Sono "specialisti" — bravissimi in compiti specifici, ma non possono fare tutto quello che fa un processore tradizionale. È come avere un campione di Formula 1: imbattibile in pista, ma non lo useresti per andare a fare la spesa.</p>`,
+        details: [
+            "La Cina ha pubblicato 476 articoli scientifici sui chip fotonici nel 2025 — 10 volte più di 8 anni fa",
+            "I chip LightGen possono generare immagini ad alta risoluzione e video usando solo luce",
+            "Consumano una frazione dell'energia dei chip tradizionali — cruciale per i datacenter AI che oggi consumano quanto intere città",
+            "L'Europa (Belgio, Olanda) sta investendo in questa tecnologia perché non richiede le fabbriche ultramoderne dominate da Taiwan"
+        ],
+        implication: "L'intelligenza artificiale sta consumando quantità enormi di energia — i datacenter che fanno funzionare ChatGPT o generano immagini richiedono l'elettricità di piccole città. I chip fotonici potrebbero tagliare drasticamente questi consumi. E potrebbero dare alla Cina un vantaggio tecnologico, aggirando le restrizioni americane sui chip tradizionali.",
+        curiosity: "💡 Perché la luce è così speciale? Un fotone non ha massa, non si scalda, e viaggia a 300.000 km al secondo. Ma la cosa più utile è che puoi \"impilare\" tante informazioni diverse sulla stessa luce, usando colori diversi (lunghezze d'onda). È come se invece di una lettera alla volta potessi spedire un intero libro in un solo istante.",
+        source: "Nature / South China Morning Post",
+        link: "https://www.nature.com/articles/d41586-026-00274-9"
+    },
+    {
+        n: 3, c: "c3", icon: "🧬", cat: "GENETICA",
+        title: "L'AI di Google sta decifrando il \"DNA spazzatura\" per trovare le cause di malattie misteriose",
+        summary: "AlphaGenome può leggere un milione di \"lettere\" del DNA e predire quali errori causano malattie. Già usato per risolvere casi di bambini con malattie rare senza diagnosi.",
+        explain: `<p><strong>Il mistero del DNA:</strong> Il nostro DNA è lungo 3 miliardi di \"lettere\" (basi). Ma solo il 2% contiene le istruzioni per costruire proteine — i \"geni\" che tutti conosciamo. E l'altro 98%? Per decenni è stato chiamato \"DNA spazzatura\" perché non si capiva a cosa servisse.</p>
+        
+        <p><strong>La scoperta:</strong> Quel 98% non è affatto spazzatura. Sono le \"istruzioni per le istruzioni\" — controllano quando, dove e quanto i geni si attivano. Se un gene è una lampadina, il DNA non-codificante è il dimmer, l'interruttore, il timer. E quando qualcosa va storto in queste regole, possono nascere malattie.</p>
+        
+        <p><strong>Il problema clinico:</strong> Quando un bambino nasce con una malattia misteriosa, i medici cercano errori nei geni. Ma spesso non trovano nulla. Perché? Perché l'errore è nel restante 98% — e finora non avevamo modo di capire cosa significassero quelle mutazioni.</p>
+        
+        <p><strong>AlphaGenome:</strong> Google DeepMind (gli stessi di AlphaFold, che ha vinto il Nobel) ha creato un'AI che può leggere fino a UN MILIONE di lettere di DNA e predire cosa succede se una singola lettera è sbagliata. Può dire: \"questa mutazione farà sì che il gene X si attivi troppo nelle cellule del cuore, ma non nel cervello\". Informazioni impossibili da ottenere prima.</p>`,
+        details: [
+            "Può analizzare sequenze 1000 volte più lunghe dei modelli precedenti — cruciale perché alcune \"istruzioni\" controllano geni lontanissimi",
+            "A settembre 2025, ricercatori l'hanno usato in un \"hackathon\" per analizzare 29 casi di bambini con malattie non diagnosticate",
+            "In alcuni casi, ha confermato le intuizioni dei medici; in altri, ha trovato piste completamente nuove",
+            "3000 scienziati in 160 paesi lo stanno già usando, con un milione di richieste al giorno"
+        ],
+        implication: "Migliaia di famiglie vivono con bambini malati senza sapere perché. Il cosiddetto \"odissea diagnostica\" può durare anni, decenni, o non finire mai. Strumenti come AlphaGenome potrebbero finalmente dare risposte — e risposte significano possibilità di cure, o almeno di capire cosa sta succedendo.",
+        curiosity: "🧬 Pensa a questo: ogni persona ha circa 4-5 milioni di piccole variazioni nel DNA rispetto al \"modello standard\". La stragrande maggioranza sono innocue. Ma alcune — pochissime — causano malattie gravissime. Trovare l'ago nel pagliaio era quasi impossibile. AlphaGenome può dire con buona precisione: \"queste 50 variazioni sono probabilmente innocue, ma questa qui... questa merita attenzione\".",
+        source: "Nature / Google DeepMind",
+        link: "https://www.nature.com/articles/d41586-026-00302-8"
+    },
+    {
+        n: 4, c: "c4", icon: "🚀", cat: "SPAZIO",
+        title: "Tra 5 giorni l'umanità torna sulla Luna: 4 astronauti pronti al viaggio",
+        summary: "La missione Artemis II partirà il 6 febbraio. Sarà il primo volo umano oltre l'orbita terrestre dal 1972. Un canadese sarà il primo non-americano a vedere la Luna da vicino.",
+        explain: `<p><strong>Un po' di contesto:</strong> L'ultima volta che un essere umano ha visto la Luna da vicino era il dicembre 1972 — la missione Apollo 17. Da allora, per oltre 50 anni, nessuno si è più allontanato oltre 600 km dalla Terra. La Stazione Spaziale Internazionale orbita a circa 400 km. La Luna è a 384.000 km.</p>
+        
+        <p><strong>Cosa farà Artemis II:</strong> Quattro astronauti partiranno dalla Florida sul razzo più potente mai costruito dalla NASA (SLS). Viaggeranno per 10 giorni, faranno il giro completo della Luna — compreso il lato che dalla Terra non vediamo mai — e torneranno a casa. Non atterreranno (quello sarà Artemis III nel 2028), ma sarà comunque un viaggio epico.</p>
+        
+        <p><strong>Chi sono i 4:</strong> Reid Wiseman (comandante), Victor Glover (pilota — sarà il primo afroamericano a volare verso la Luna), Christina Koch (specialista — detiene il record femminile di permanenza nello spazio), e Jeremy Hansen (canadese — il primo non-americano in una missione lunare).</p>
+        
+        <p><strong>Perché è importante:</strong> Non è solo nostalgia. L'obiettivo è costruire una presenza permanente sulla Luna entro il prossimo decennio. La Luna ha acqua ghiacciata ai poli (risorsa preziosa), e potrebbe diventare una \"base di lancio\" per Marte. Questa missione testa tutti i sistemi per i futuri allunaggi.</p>`,
+        details: [
+            "Il razzo SLS è alto come un palazzo di 30 piani ed è il più potente mai costruito dalla NASA",
+            "Gli astronauti passeranno a soli 130 km dalla superficie lunare — vedranno crateri grandi come città",
+            "Vedranno il \"lato nascosto\" della Luna — quello sempre rivolto via dalla Terra, che ha un aspetto completamente diverso",
+            "La Cina sta preparando la sua missione lunare (Chang'e-7) per lo stesso anno — è una nuova \"corsa alla Luna\""
+        ],
+        implication: "I bambini nati oggi potrebbero vedere esseri umani camminare su Marte. Ma prima bisogna tornare sulla Luna, imparare a viverci, estrarre risorse. Artemis II è il primo passo concreto di questo piano. Se tutto va bene, entro 2-3 anni vedremo astronauti camminare sulla Luna per la prima volta dal 1972.",
+        curiosity: "🌙 Fatto commovente: L'ultima persona a camminare sulla Luna, Gene Cernan, morì nel 2017 ancora in attesa di vedere qualcun altro seguire le sue orme. Disse: \"Sono stato l'ultimo uomo a camminare sulla Luna. Non volevo esserlo, ma lo sono stato\". Ora, finalmente, altri stanno per tornare.",
+        source: "NASA / PBS NewsHour",
+        link: "https://www.pbs.org/newshour/nation/artemis-ii-highlights-a-shift-in-u-s-space-strategy-since-apollo-and-contrasts-with-chinas-closed-program"
+    },
+    {
+        n: 5, c: "c5", icon: "🏃", cat: "SALUTE",
+        title: "\"Snack di movimento\": la scienza conferma che piccoli gesti durante il giorno salvano il cuore",
+        summary: "Non serve la palestra: salire le scale, camminare 3 minuti ogni ora, alzarsi dalla sedia. Nuove ricerche mostrano che questi \"spuntini di esercizio\" riducono drasticamente il rischio di infarto.",
+        explain: `<p><strong>Il problema moderno:</strong> Passiamo ore seduti — alla scrivania, in auto, sul divano. Anche se andiamo in palestra la sera, quelle 8-10 ore di immobilità fanno danni. Il corpo umano è progettato per muoversi spesso, non per stare fermo tutto il giorno e poi fare un'ora intensa.</p>
+        
+        <p><strong>La scoperta:</strong> Ricercatori hanno scoperto che \"spezzettare\" il movimento durante la giornata ha effetti protettivi enormi. Non servono 30 minuti consecutivi — bastano 3-4 minuti di camminata veloce ogni ora, qualche rampa di scale, alzarsi e fare squat mentre aspetti il caffè.</p>
+        
+        <p><strong>I numeri:</strong> Uno studio su migliaia di persone ha trovato che chi saliva almeno 3 piani di scale al giorno aveva il 20% in meno di rischio di morte per problemi cardiaci. Un altro ha mostrato che 3-4 minuti di movimento vigoroso (camminata veloce, scale) più volte al giorno riduceva significativamente il rischio di infarto e cancro.</p>
+        
+        <p><strong>Perché funziona:</strong> Ogni volta che ti muovi, il sangue circola meglio, i muscoli consumano zucchero dal sangue, i vasi sanguigni si \"allenano\" a dilatarsi. Fare questo tante volte al giorno è come dare al corpo tanti piccoli \"regali\" invece di uno grande. E si sommano.</p>`,
+        details: [
+            "Anche solo 3-4 minuti di camminata veloce ogni ora abbassano glicemia, pressione e rischio cardiovascolare",
+            "Chi sta seduto 8+ ore al giorno ha rischi elevati ANCHE se va in palestra — il movimento deve essere distribuito",
+            "Le scale sono l'\"esercizio snack\" perfetto: 3 piani al giorno = -20% rischio morte cardiaca",
+            "Un timer ogni 45-60 minuti che ricorda di alzarsi per 2 minuti può cambiare la salute a lungo termine"
+        ],
+        implication: "La buona notizia? Non devi stravolgere la tua vita. Parcheggia più lontano, usa le scale invece dell'ascensore, cammina mentre parli al telefono, alzati durante le pubblicità. Questi piccoli cambiamenti, ripetuti ogni giorno, possono aggiungere anni alla tua vita — letteralmente.",
+        curiosity: "⏰ Il trucco usato dai ricercatori: In uno studio, i partecipanti mettevano un timer ogni 55 minuti. Quando suonava, si alzavano e camminavano per 5 minuti. Alla fine della giornata lavorativa, avevano accumulato 40 minuti di movimento senza \"andare in palestra\". E i loro parametri di salute erano migliorati significativamente in poche settimane.",
+        source: "Nature / European Heart Journal",
+        link: "https://www.nature.com/articles/d41586-026-00237-0"
+    }
+];
+
+function render() {
+    document.getElementById('cards').innerHTML = data.map(a => `
+        <div class="card ${a.c}" id="card${a.n}" onclick="toggle(${a.n})">
+            <div class="card-header">
+                <div class="card-top">
+                    <div class="card-icon">${a.icon}</div>
+                    <span class="card-cat">${a.cat}</span>
+                    <span class="card-num">#${a.n}</span>
+                    <span class="card-arrow">▼</span>
+                </div>
+                <h2 class="card-title">${a.title}</h2>
+                <p class="card-summary">${a.summary}</p>
+            </div>
+            <div class="card-details">
+                <div class="section-title gold">📖 SPIEGAZIONE SEMPLICE</div>
+                <div class="explain-box">
+                    <div class="explain-text">${a.explain}</div>
+                </div>
+                
+                <div class="section-title blue">📌 I FATTI CHIAVE</div>
+                <ul class="details-list">${a.details.map(d => `<li>${d}</li>`).join('')}</ul>
+                
+                <div class="section-title green">💡 COSA SIGNIFICA PER NOI</div>
+                <div class="implications">
+                    <p>${a.implication}</p>
+                </div>
+                
+                <div class="curiosity">
+                    <p>${a.curiosity}</p>
+                </div>
+                
+                <div class="card-footer">
+                    <span class="card-source">📎 ${a.source}</span>
+                    <a href="${a.link}" target="_blank" class="card-link" onclick="event.stopPropagation()">🔗 Leggi la fonte</a>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function toggle(n) {
+    document.getElementById('card'+n).classList.toggle('open');
+}
+
+function condividi() {
+    const txt = `🔬 SCIENZAOGGI - 1 Febbraio 2026
+La scienza spiegata per tutti
+
+Le 5 scoperte più importanti di oggi:
+
+1. 🫁 Uomo sopravvive 48 ore SENZA polmoni grazie a invenzione rivoluzionaria
+
+2. 💡 La Cina costruisce computer che funzionano con la LUCE: 100x più veloci
+
+3. 🧬 L'AI di Google decifra il "DNA spazzatura" per trovare cause di malattie rare
+
+4. 🚀 Tra 5 GIORNI si torna sulla Luna: missione Artemis II pronta
+
+5. 🏃 "Snack di movimento": piccoli gesti salvano il cuore (3 piani di scale = -20% rischio)
+
+Tocca per leggere le spiegazioni complete 👇`;
+    
+    if (navigator.share) {
+        navigator.share({title: 'ScienzaOggi', text: txt});
+    } else {
+        navigator.clipboard.writeText(txt).then(() => {
+            const b = document.querySelector('.share-btn');
+            b.textContent = '✅ Copiato negli appunti!';
+            setTimeout(() => b.innerHTML = '📤 Condividi con gli amici', 2500);
+        });
+    }
+}
+
+render();
+</script>
+</body>
+</html>
