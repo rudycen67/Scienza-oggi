@@ -4,332 +4,287 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ScienzaOggi - 6 Febbraio 2026</title>
-    <meta property="og:title" content="ScienzaOggi - Le 5 Scoperte Scientifiche del Giorno">
-    <meta property="og:description" content="6 Febbraio 2026: Virus e sclerosi multipla, neonati con senso del ritmo, cometa visibile ad aprile, computer quantistici vicini, plastica impossibile">
+    <meta name="description" content="Le 5 scoperte scientifiche del 6 Febbraio 2026">
+    <meta property="og:title" content="ScienzaOggi - 6 Febbraio 2026">
+    <meta property="og:description" content="🔬 Le 5 scoperte scientifiche del 6 Febbraio 2026">
     <meta property="og:image" content="https://rudycen67.github.io/Scienza-oggi/cover.jpg">
     <meta property="og:url" content="https://rudycen67.github.io/Scienza-oggi/">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            color: #e4e4e4;
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(180deg, #020617 0%, #0f172a 50%, #020617 100%);
+            min-height: 100vh; padding: 16px; color: white; line-height: 1.6;
         }
-        .container { max-width: 800px; margin: 0 auto; }
-        header {
-            text-align: center;
-            padding: 30px 0;
-            border-bottom: 2px solid #0f3460;
-            margin-bottom: 30px;
+        .container { max-width: 540px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 24px; }
+        .badge { color: #fbbf24; font-size: 11px; font-weight: bold; letter-spacing: 2px; }
+        .logo { font-size: 32px; font-weight: 900; margin: 6px 0; }
+        .logo span { color: #22d3ee; }
+        .date { color: #94a3b8; font-size: 13px; margin-bottom: 4px; }
+        .tagline { color: #64748b; font-size: 12px; font-style: italic; }
+        .hint { color: #475569; font-size: 12px; margin-top: 12px; }
+        .btn-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
+        .share-btn, .archive-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            color: white; border: none; padding: 12px 24px; border-radius: 50px;
+            font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none;
+            transition: all 0.2s;
         }
-        h1 {
-            font-size: 2.5rem;
-            background: linear-gradient(90deg, #00d4ff, #00ff88);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-        }
-        .date {
-            color: #7f8c8d;
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-        }
-        .subtitle {
-            color: #bdc3c7;
-            font-size: 1rem;
-        }
+        .share-btn { background: #0891b2; }
+        .share-btn:hover { background: #06b6d4; transform: scale(1.02); }
+        .archive-btn { background: #7c3aed; }
+        .archive-btn:hover { background: #8b5cf6; transform: scale(1.02); }
         .whatsapp-banner {
-            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-            border-radius: 12px;
-            padding: 15px 20px;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            text-decoration: none;
-            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            padding: 12px 20px; border-radius: 12px; margin-bottom: 20px;
+            text-decoration: none; color: white; font-weight: 600; font-size: 14px;
+            transition: all 0.2s; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
         }
-        .whatsapp-banner:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
-        }
-        .whatsapp-banner svg {
-            width: 28px;
-            height: 28px;
-            fill: white;
-        }
-        .whatsapp-banner span {
-            color: white;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-        .nav-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-        .nav-btn {
-            background: rgba(255,255,255,0.1);
-            color: #00d4ff;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-            border: 1px solid rgba(0,212,255,0.3);
-        }
-        .nav-btn:hover {
-            background: rgba(0,212,255,0.2);
-            transform: translateY(-2px);
-        }
+        .whatsapp-banner:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4); }
+        .whatsapp-banner svg { width: 24px; height: 24px; fill: white; }
         .card {
-            background: rgba(255,255,255,0.05);
-            border-radius: 16px;
-            margin-bottom: 20px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 14px; overflow: hidden; cursor: pointer; transition: transform 0.2s;
         }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 40px rgba(0,0,0,0.3); }
-        .card-header {
-            padding: 20px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 15px;
-        }
-        .card-category {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-        .medicina { background: linear-gradient(135deg, #e74c3c, #c0392b); }
-        .neuroscienze { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
-        .spazio { background: linear-gradient(135deg, #3498db, #2980b9); }
-        .tecnologia { background: linear-gradient(135deg, #1abc9c, #16a085); }
-        .materiali { background: linear-gradient(135deg, #f39c12, #d68910); }
-        .card-title {
-            font-size: 1.3rem;
-            color: #fff;
-            line-height: 1.4;
-            flex: 1;
-        }
-        .expand-icon {
-            font-size: 1.5rem;
-            color: #00d4ff;
-            transition: transform 0.3s;
-            flex-shrink: 0;
-        }
-        .card.expanded .expand-icon { transform: rotate(45deg); }
-        .card-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease;
-            padding: 0 20px;
-        }
-        .card.expanded .card-content {
-            max-height: 1500px;
-            padding: 0 20px 20px;
-        }
-        .card-content p {
-            color: #bdc3c7;
-            line-height: 1.8;
-            margin-bottom: 15px;
-        }
-        .fonte {
-            display: inline-block;
-            color: #00d4ff;
-            font-size: 0.85rem;
-            padding: 5px 12px;
-            background: rgba(0,212,255,0.1);
-            border-radius: 20px;
-            margin-top: 10px;
-        }
-        .share-section {
-            text-align: center;
-            margin-top: 40px;
-            padding: 30px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 16px;
-        }
-        .share-btn {
-            background: linear-gradient(135deg, #00d4ff, #00ff88);
-            color: #1a1a2e;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .share-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(0,212,255,0.3);
-        }
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #7f8c8d;
-            font-size: 0.9rem;
-        }
-        @media (max-width: 600px) {
-            h1 { font-size: 1.8rem; }
-            .card-title { font-size: 1.1rem; }
-            body { padding: 15px; }
-        }
+        .card:active { transform: scale(0.98); }
+        .card-header { padding: 18px; }
+        .card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .card-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+        .card-cat { font-size: 11px; font-weight: bold; letter-spacing: 1px; }
+        .card-num { margin-left: auto; color: #475569; font-size: 11px; font-weight: bold; }
+        .card-arrow { color: #64748b; font-size: 14px; transition: transform 0.3s; }
+        .card.open .card-arrow { transform: rotate(180deg); }
+        .card-title { font-size: 17px; font-weight: 700; line-height: 1.35; margin-bottom: 10px; }
+        .card-summary { font-size: 14px; color: #cbd5e1; line-height: 1.6; }
+        .card-details { display: none; padding: 0 18px 18px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 18px; }
+        .card.open .card-details { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+        .section-title { font-size: 12px; font-weight: bold; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+        .section-title.gold { color: #fbbf24; }
+        .section-title.blue { color: #38bdf8; }
+        .section-title.green { color: #4ade80; }
+        .explain-box { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 14px; margin-bottom: 16px; }
+        .explain-text { font-size: 14px; color: #e2e8f0; line-height: 1.75; }
+        .explain-text p { margin-bottom: 12px; }
+        .explain-text p:last-child { margin-bottom: 0; }
+        .explain-text strong { color: #fbbf24; }
+        .details-list { list-style: none; margin-bottom: 16px; }
+        .details-list li { display: flex; gap: 10px; font-size: 14px; color: #cbd5e1; line-height: 1.6; margin-bottom: 10px; }
+        .details-list li::before { content: "→"; color: #22d3ee; font-weight: bold; flex-shrink: 0; }
+        .implications { padding: 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 16px; }
+        .implications p { font-size: 14px; color: #f1f5f9; line-height: 1.7; }
+        .curiosity { background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 12px; padding: 14px; margin-bottom: 16px; }
+        .curiosity p { font-size: 13px; color: #fef3c7; line-height: 1.6; }
+        .card-footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .card-source { font-size: 12px; color: #64748b; }
+        .card-link { font-size: 12px; color: #22d3ee; text-decoration: none; font-weight: 500; }
+        .card-link:hover { color: #67e8f9; text-decoration: underline; }
+        .c1 { background: rgba(239, 68, 68, 0.35); }
+        .c1 .card-icon { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .c1 .card-cat { color: #fca5a5; }
+        .c1 .implications { background: rgba(239, 68, 68, 0.15); }
+        .c2 { background: rgba(168, 85, 247, 0.35); }
+        .c2 .card-icon { background: linear-gradient(135deg, #a855f7, #7c3aed); }
+        .c2 .card-cat { color: #c4b5fd; }
+        .c2 .implications { background: rgba(168, 85, 247, 0.15); }
+        .c3 { background: rgba(59, 130, 246, 0.35); }
+        .c3 .card-icon { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .c3 .card-cat { color: #93c5fd; }
+        .c3 .implications { background: rgba(59, 130, 246, 0.15); }
+        .c4 { background: rgba(20, 184, 166, 0.35); }
+        .c4 .card-icon { background: linear-gradient(135deg, #14b8a6, #0d9488); }
+        .c4 .card-cat { color: #5eead4; }
+        .c4 .implications { background: rgba(20, 184, 166, 0.15); }
+        .c5 { background: rgba(249, 115, 22, 0.35); }
+        .c5 .card-icon { background: linear-gradient(135deg, #f97316, #ea580c); }
+        .c5 .card-cat { color: #fdba74; }
+        .c5 .implications { background: rgba(249, 115, 22, 0.15); }
+        .footer { text-align: center; margin-top: 24px; padding-bottom: 20px; }
+        .footer-badge { display: inline-block; padding: 12px 24px; background: rgba(30,41,59,0.6); border: 1px solid #334155; border-radius: 50px; font-size: 13px; color: #94a3b8; }
+        .footer-text { font-size: 12px; color: #475569; margin-top: 12px; }
+        .footer-text a { color: #22d3ee; text-decoration: none; }
+        .footer-text a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>🔬 ScienzaOggi</h1>
-            <p class="date">📅 6 Febbraio 2026</p>
-            <p class="subtitle">Le 5 scoperte scientifiche più importanti del giorno</p>
-        </header>
-
+        <div class="header">
+            <div class="badge">✨ BREAKING SCIENCE ✨</div>
+            <h1 class="logo">SCIENZA<span>OGGI</span></h1>
+            <p class="date">📅 6 Febbraio 2026 • Edizione #3</p>
+            <p class="tagline">"La scienza di oggi è la tecnologia di domani"</p>
+            <p class="hint">👆 Tocca una card per espanderla</p>
+            <div class="btn-row">
+                <button class="share-btn" onclick="condividi()">📤 Condividi</button>
+                <a href="archivio.html" class="archive-btn">📚 Archivio</a>
+            </div>
+        </div>
+        
         <a href="https://whatsapp.com/channel/0029Vb7cSa6HbFV5m8NxmR2c" target="_blank" class="whatsapp-banner">
             <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            <span>📢 Iscriviti al Canale WhatsApp</span>
+            📢 Iscriviti al Canale WhatsApp
         </a>
 
-        <div class="nav-buttons">
-            <a href="archivio.html" class="nav-btn">📚 Archivio Edizioni</a>
+        <div id="cards"></div>
+
+        <div class="footer">
+            <div class="footer-badge">🔬 5 scoperte • 6 Febbraio 2026</div>
+            <p class="footer-text">Creato con 💙 da <a href="archivio.html">ScienzaOggi</a></p>
         </div>
-
-        <article class="card">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div>
-                    <span class="card-category medicina">Medicina</span>
-                    <h2 class="card-title">Scoperto come il virus di Epstein-Barr potrebbe causare la sclerosi multipla</h2>
-                </div>
-                <span class="expand-icon">+</span>
-            </div>
-            <div class="card-content">
-                <p>Ricercatori dell'Università della California San Francisco hanno scoperto un nuovo indizio cruciale su come il virus di Epstein-Barr (EBV) potrebbe contribuire allo sviluppo della sclerosi multipla (SM), malattia autoimmune che colpisce quasi un milione di americani.</p>
-                <p>Lo studio, pubblicato il 5 febbraio su <em>Nature Immunology</em>, ha rivelato che particolari cellule T "killer" CD8+ — cellule immunitarie che distruggono cellule danneggiate o infette — sono da 10 a 100 volte più abbondanti nel liquido cerebrospinale dei pazienti con SM rispetto al sangue. Alcune di queste cellule killer prendono di mira specificamente l'EBV.</p>
-                <p>Il virus EBV, presente in circa il 95% degli adulti, è stato riscontrato praticamente in tutti coloro che sviluppano SM. La scoperta suggerisce che il virus potrebbe scatenare la risposta immunitaria dannosa caratteristica della malattia. Un gene virale era attivo solo nei pazienti con SM, indicando un possibile ruolo nel guidare la risposta immunitaria iperattiva.</p>
-                <p>"Questa connessione con le cellule T CD8+ sottostudiate collega molti punti e ci offre una nuova finestra su come l'EBV contribuisce probabilmente a questa malattia", ha dichiarato Joe Sabatino, autore senior dello studio. "La grande speranza è che se possiamo interferire con l'EBV, potremmo avere un grande effetto non solo sulla SM ma anche su altri disturbi."</p>
-                <span class="fonte">📄 Nature Immunology / UC San Francisco</span>
-            </div>
-        </article>
-
-        <article class="card">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div>
-                    <span class="card-category neuroscienze">Neuroscienze</span>
-                    <h2 class="card-title">I neonati nascono con il senso del ritmo: è innato, non appreso</h2>
-                </div>
-                <span class="expand-icon">+</span>
-            </div>
-            <div class="card-content">
-                <p>I bambini nascono con la capacità di prevedere il ritmo musicale: lo ha dimostrato uno studio italiano pubblicato il 5 febbraio sulla rivista <em>PLOS Biology</em> da Roberta Bianco dell'Istituto Italiano di Tecnologia e colleghi.</p>
-                <p>I ricercatori hanno fatto ascoltare composizioni per pianoforte di J.S. Bach a 49 neonati addormentati di soli 2-3 giorni di vita. Le sessioni includevano 10 melodie originali e 4 versioni rimescolate con melodie e toni alterati. Monitorando le risposte cerebrali elettriche, hanno scoperto che i cervelli dei neonati reagivano con sorpresa quando il ritmo cambiava inaspettatamente.</p>
-                <p>"Anche i nostri più piccoli ascoltatori di 2 giorni possono anticipare schemi ritmici, rivelando che alcuni elementi chiave della percezione musicale sono programmati fin dalla nascita", hanno scritto gli autori. Tuttavia, c'è una differenza importante: la capacità di prevedere la melodia non sembra essere presente alla nascita.</p>
-                <p>"Questo suggerisce che la melodia non è innata ma viene gradualmente appresa attraverso l'esposizione. In altre parole, il ritmo potrebbe far parte del nostro kit di strumenti biologici, mentre la melodia è qualcosa in cui cresciamo", ha spiegato Bianco. Lo studio apre nuove prospettive sulla comprensione dello sviluppo cognitivo precoce.</p>
-                <span class="fonte">📄 PLOS Biology / Istituto Italiano di Tecnologia</span>
-            </div>
-        </article>
-
-        <article class="card">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div>
-                    <span class="card-category spazio">Spazio</span>
-                    <h2 class="card-title">Scoperta nuova cometa: potrebbe essere visibile a occhio nudo ad aprile</h2>
-                </div>
-                <span class="expand-icon">+</span>
-            </div>
-            <div class="card-content">
-                <p>Una nuova cometa scoperta da quattro astronomi dilettanti sta entusiasmando la comunità scientifica: C/2026 A1 (MAPS) potrebbe diventare uno spettacolo straordinario nel cielo di aprile 2026, forse visibile persino in pieno giorno.</p>
-                <p>La cometa è stata individuata il 13 gennaio 2026 da Alain Maury, Georges Attard, Daniel Parrott e Florian Signoret usando un telescopio robotico nel deserto di Atacama, in Cile. È stata scoperta a una distanza record di oltre 300 milioni di km dal Sole — la più lontana mai rilevata per una cometa "sungrazer" (che sfiora il Sole).</p>
-                <p>La C/2026 A1 appartiene alla famiglia Kreutz, comete che passano estremamente vicino al Sole. Il 4 aprile sfiorerà la superficie solare a soli 160.000 km, viaggiando a oltre 3 milioni di km/h. Se sopravviverà a questo passaggio infuocato, potrebbe sviluppare una coda spettacolare di milioni di chilometri.</p>
-                <p>Gli astronomi sono cautamente ottimisti: il nucleo potrebbe misurare fino a 2,4 km di diametro. Comete simili della famiglia Kreutz hanno prodotto alcuni degli spettacoli celesti più memorabili della storia, come la Grande Cometa del 1882, cento volte più luminosa della Luna piena. I prossimi mesi saranno decisivi per capire il destino di questa viaggiatrice cosmica.</p>
-                <span class="fonte">📄 Minor Planet Center / Space.com</span>
-            </div>
-        </article>
-
-        <article class="card">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div>
-                    <span class="card-category tecnologia">Tecnologia</span>
-                    <h2 class="card-title">Computer quantistici utilizzabili potrebbero arrivare entro 10 anni</h2>
-                </div>
-                <span class="expand-icon">+</span>
-            </div>
-            <div class="card-content">
-                <p>Una serie di progressi sorprendenti suggerisce che i computer quantistici in grado di risolvere problemi complessi potrebbero essere realtà entro un decennio. Lo riporta <em>Nature</em> in un'analisi pubblicata il 4 febbraio che descrive un "cambio di umore" nella comunità scientifica.</p>
-                <p>Solo pochi anni fa, molti ricercatori pensavano che ci sarebbero voluti diversi decenni per sviluppare macchine capaci di affrontare compiti come prevedere reazioni chimiche o decifrare testi crittografati. Ora c'è una crescente speranza che tali macchine possano arrivare nei prossimi dieci anni.</p>
-                <p>"Un 'cambio di atmosfera' — così Nathalie de Leon, fisica sperimentale quantistica alla Princeton University, descrive il cambiamento. 'Le persone stanno iniziando a convincersi'", riporta Nature. Il ritmo dei progressi nel settore è accelerato drammaticamente, specialmente negli ultimi due anni, su diversi fronti.</p>
-                <p>Tra i traguardi recenti: Google ha dimostrato calcoli quantistici "sotto soglia" — un milestone chiave per la correzione degli errori — mentre aziende come Oxford Ionics stanno sviluppando chip quantistici sempre più sofisticati. Questi progressi avvicinano il sogno di computer quantistici capaci di rivoluzionare la medicina, la chimica e la crittografia.</p>
-                <span class="fonte">📄 Nature</span>
-            </div>
-        </article>
-
-        <article class="card">
-            <div class="card-header" onclick="toggleCard(this)">
-                <div>
-                    <span class="card-category materiali">Materiali</span>
-                    <h2 class="card-title">Creata plastica "impossibile" con proprietà del vetro: è il compleximero</h2>
-                </div>
-                <span class="expand-icon">+</span>
-            </div>
-            <div class="card-content">
-                <p>Ricercatori dell'Università di Wageningen nei Paesi Bassi hanno sviluppato un nuovo tipo di plastica che, secondo la teoria dei materiali, non dovrebbe poter esistere. Le sue proprietà si collocano a metà tra quelle del vetro e della plastica tradizionale.</p>
-                <p>Il materiale, battezzato "compleximero", può essere modellato e soffiato come il vetro quando riscaldato, pur rimanendo resistente agli urti come la plastica. Un bicchiere di vetro si frantuma se cade; una tazza di plastica rimbalza. Questo nuovo materiale combina il meglio di entrambi i mondi.</p>
-                <p>La chiave sta nel modo in cui i blocchi costruttivi del materiale sono tenuti insieme: non da legami chimici, ma da forze fisiche — specificamente, attrazione elettrostatica tra catene con cariche opposte. Questo rende il materiale più facile da modellare e riparare rispetto alle plastiche convenzionali.</p>
-                <p>"Ha gettato una luce completamente nuova su qualcosa che gli scienziati cercano di comprendere da decenni", ha dichiarato Jasper van der Gucht, professore di Chimica Fisica. Per anni una regola empirica ha stabilito che più un materiale vetroso si scioglie lentamente ed è facile da lavorare, più diventa fragile. Il compleximero sfida questa legge. I ricercatori stanno già esplorando versioni bio-based sostenibili.</p>
-                <span class="fonte">📄 Nature Communications / Wageningen University</span>
-            </div>
-        </article>
-
-        <div class="share-section">
-            <p style="margin-bottom: 20px; color: #bdc3c7;">Ti è piaciuta questa edizione?</p>
-            <button class="share-btn" onclick="shareContent()">📤 Condividi ScienzaOggi</button>
-        </div>
-
-        <footer>
-            <p>ScienzaOggi — La scienza spiegata semplice, ogni giorno</p>
-            <p style="margin-top: 10px;">© 2026 — Edizione #3</p>
-        </footer>
     </div>
 
-    <script>
-        function toggleCard(header) {
-            const card = header.parentElement;
-            card.classList.toggle('expanded');
-        }
+<script>
+const data = [
+    {
+        n: 1, c: "c1", icon: "🦠", cat: "MEDICINA",
+        title: "Il virus Epstein-Barr potrebbe scatenare la sclerosi multipla: trovate le cellule colpevoli",
+        summary: "Ricercatori UC San Francisco hanno scoperto che particolari cellule immunitarie che attaccano il virus EBV sono fino a 100 volte più abbondanti nei pazienti con sclerosi multipla.",
+        explain: `<p><strong>Cos'è il virus Epstein-Barr:</strong> Un virus estremamente comune — circa il 95% degli adulti lo porta — che di solito non causa problemi. Ma da anni i ricercatori sospettano un collegamento con la sclerosi multipla.</p>
+        <p><strong>La scoperta:</strong> Nel liquido cerebrospinale dei pazienti con SM, i linfociti T CD8+ "killer" che attaccano specificamente l'EBV sono 10-100 volte più numerosi del normale. E un gene virale risulta attivo solo nei pazienti con SM.</p>
+        <p><strong>La connessione:</strong> Sembra che il sistema immunitario, nel tentativo di combattere il virus, finisca per attaccare anche la mielina che protegge i nervi — causando la malattia.</p>`,
+        details: [
+            "Il 95% degli adulti è portatore di EBV, ma virtualmente il 100% dei pazienti con SM",
+            "Le cellule T killer anti-EBV sono concentrate nel liquido cerebrospinale, non nel sangue",
+            "Un gene virale specifico è attivo solo nei pazienti con sclerosi multipla",
+            "Apre la strada a terapie mirate contro l'EBV per trattare la SM"
+        ],
+        implication: "Se confermato, potremmo avere un nuovo bersaglio terapeutico per la sclerosi multipla: invece di sopprimere tutto il sistema immunitario, si potrebbe mirare specificamente al virus. In futuro, forse anche un vaccino preventivo.",
+        curiosity: "🧬 EBV è lo stesso virus che causa la mononucleosi ('malattia del bacio'). Un'infezione banale per la maggior parte delle persone potrebbe essere il trigger nascosto di una delle malattie neurologiche più devastanti.",
+        source: "Nature Immunology / UC San Francisco",
+        link: "https://www.ucsf.edu/news/2026/02/431451/immune-cells-linked-epstein-barr-virus-may-play-role-ms"
+    },
+    {
+        n: 2, c: "c2", icon: "👶", cat: "NEUROSCIENZE",
+        title: "I neonati nascono già con il senso del ritmo: la melodia si impara dopo",
+        summary: "Studio italiano rivela che bebè di 2-3 giorni anticipano i pattern ritmici nella musica, mentre la capacità di prevedere le melodie si sviluppa solo con l'esperienza.",
+        explain: `<p><strong>L'esperimento:</strong> 49 neonati di 2-3 giorni hanno ascoltato composizioni di Bach mentre dormivano. I ricercatori hanno misurato le risposte cerebrali a variazioni ritmiche e melodiche.</p>
+        <p><strong>Cosa hanno scoperto:</strong> Quando il ritmo cambiava inaspettatamente, il cervello dei neonati mostrava "sorpresa" — segno che stavano anticipando il pattern. Ma non c'era nessuna reazione ai cambiamenti melodici.</p>
+        <p><strong>Il significato:</strong> Il senso del ritmo è innato, fa parte del nostro "kit biologico". La melodia invece si impara ascoltando musica e linguaggio dopo la nascita.</p>`,
+        details: [
+            "Testati 49 neonati dormenti di soli 2-3 giorni di vita",
+            "Usate composizioni originali di J.S. Bach al pianoforte",
+            "Il cervello reagiva ai cambiamenti ritmici ma non a quelli melodici",
+            "Studio dell'Italian Institute of Technology pubblicato su PLOS Biology"
+        ],
+        implication: "Il ritmo potrebbe essere fondamentale per lo sviluppo del linguaggio e della comunicazione — entrambi basati su pattern temporali. Capire cosa è innato e cosa appreso aiuta a sviluppare interventi precoci per disturbi del linguaggio.",
+        curiosity: "🎵 I neonati sono piccoli batteristi naturali! Il ritmo potrebbe essere così fondamentale perché il primo suono che sentiamo — il battito cardiaco della mamma — è già un pattern ritmico perfetto.",
+        source: "PLOS Biology / Italian Institute of Technology",
+        link: "https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3003600"
+    },
+    {
+        n: 3, c: "c3", icon: "☄️", cat: "SPAZIO",
+        title: "Scoperta cometa che potrebbe brillare in pieno giorno: la sfida al Sole di aprile",
+        summary: "C/2026 A1 (MAPS), scoperta da 4 astronomi amatoriali nel deserto di Atacama, sfiorerà il Sole ad aprile a soli 160.000 km dalla superficie. Se sopravvive, sarà spettacolare.",
+        explain: `<p><strong>La scoperta:</strong> Il 13 gennaio, quattro astronomi amatoriali francesi hanno individuato un oggetto debole nella costellazione della Colomba. Era a 300 milioni di km dal Sole — la distanza più grande a cui sia mai stata scoperta una cometa di questo tipo.</p>
+        <p><strong>Perché è speciale:</strong> È una "sungrazer" della famiglia Kreutz — comete che sfiorano il Sole a distanze pazzesche. Il 4 aprile passerà a soli 160.000 km dalla superficie solare, viaggiando a oltre 2 milioni di km/h.</p>
+        <p><strong>La sfida:</strong> A quella distanza, il calore è estremo. Se la cometa sopravvive, potrebbe diventare visibile ad occhio nudo, forse anche in pieno giorno. Se si frantuma... spettacolo finito.</p>`,
+        details: [
+            "Scoperta a distanza record: 300+ milioni di km dal Sole",
+            "Nucleo stimato fino a 2,4 km di diametro — insolitamente grande",
+            "Perielio il 4 aprile 2026 a soli 160.000 km dalla superficie solare",
+            "La famiglia Kreutz include la Grande Cometa del 1882, 100 volte più luminosa della Luna piena"
+        ],
+        implication: "Se sopravvive al perielio, potrebbe essere la cometa più luminosa degli ultimi decenni — visibile dall'emisfero sud subito dopo il tramonto. Ma le comete sono imprevedibili: potrebbe anche disintegrarsi completamente.",
+        curiosity: "🌟 Le comete Kreutz sono tutte figlie di un'unica mega-cometa che si frantumò avvicinandosi al Sole migliaia di anni fa. Nel 363 d.C. i cronisti riportarono più comete visibili in pieno giorno contemporaneamente!",
+        source: "Sky & Telescope",
+        link: "https://skyandtelescope.org/astronomy-news/new-kreutz-comet-c-2026-a1-may-dazzle/"
+    },
+    {
+        n: 4, c: "c4", icon: "💻", cat: "TECNOLOGIA",
+        title: "Computer quantistici utili entro 10 anni: gli esperti ora ci credono davvero",
+        summary: "Nature riporta un cambio di 'vibe' nella comunità scientifica: progressi sorprendenti negli ultimi 2 anni hanno accorciato drasticamente le previsioni.",
+        explain: `<p><strong>Il cambio di prospettiva:</strong> Fino a pochi anni fa, i ricercatori pensavano servissero decenni per avere computer quantistici utili. Ora parlano di 10 anni. "È un vero cambio di vibe", dice Nathalie de Leon di Princeton.</p>
+        <p><strong>Cosa è cambiato:</strong> Negli ultimi 2 anni i progressi sono accelerati su più fronti: riduzione drastica degli errori, miglioramenti nella produzione dei chip quantistici, nuove tecniche di controllo.</p>
+        <p><strong>Le pietre miliari:</strong> Google ha eseguito calcoli "sotto soglia" (con errori corretti), Oxford Ionics ha fatto progressi sui chip. Microsoft e altri prevedono computer quantistici con correzione d'errore già nel 2026.</p>`,
+        details: [
+            "Il termine 'vibe shift' usato dai fisici per descrivere il cambio di atmosfera",
+            "Progressi drammatici negli ultimi 2 anni su più fronti tecnologici",
+            "Google, IBM, Microsoft, startup come Oxford Ionics tutti in corsa",
+            "Applicazioni: simulazione chimica, nuovi farmaci, crittografia, ottimizzazione"
+        ],
+        implication: "Computer quantistici pratici potrebbero rivoluzionare la scoperta di farmaci, la scienza dei materiali, l'intelligenza artificiale e la sicurezza informatica. La corsa è iniziata davvero.",
+        curiosity: "🔐 Ironia della sorte: mentre i computer quantistici promettono di risolvere problemi impossibili, minacciano anche di rompere la crittografia attuale. Per questo governi e aziende stanno già sviluppando 'crittografia post-quantistica'.",
+        source: "Nature",
+        link: "https://www.nature.com/articles/d41586-026-00312-6"
+    },
+    {
+        n: 5, c: "c5", icon: "🧪", cat: "MATERIALI",
+        title: "Creata la plastica 'impossibile' che sfida le leggi della fisica dei materiali",
+        summary: "Ricercatori olandesi hanno sviluppato il 'compleximer': si modella come vetro, resiste agli urti come plastica. Secondo la teoria, non dovrebbe esistere.",
+        explain: `<p><strong>Il paradosso risolto:</strong> Nella scienza dei materiali c'è una regola: i materiali che si fondono lentamente (facili da lavorare) sono fragili. I compleximer infrangono questa regola — si modellano facilmente ma resistono agli urti.</p>
+        <p><strong>Il segreto:</strong> Invece di legami chimici, le catene molecolari sono tenute insieme da forze fisiche — attrazione elettrostatica tra cariche opposte. Come magneti invece di colla.</p>
+        <p><strong>Il risultato:</strong> Una plastica color ambra che può essere soffiata e modellata come vetro quando calda, ma rimbalza se cade invece di frantumarsi.</p>`,
+        details: [
+            "Proprietà a metà tra vetro e plastica — teoricamente impossibile",
+            "Tenuto insieme da forze elettrostatiche, non legami chimici",
+            "Facile da riparare: basta scaldare e premere insieme",
+            "In sviluppo versioni bio-based per sostenibilità"
+        ],
+        implication: "Immagina pannelli per tetti, mobili da giardino o carrozzerie auto che puoi riparare con un asciugacapelli. Il compleximer potrebbe rivoluzionare il modo in cui pensiamo alla durabilità e al riciclo dei materiali.",
+        curiosity: "🔬 'Abbiamo guardato i risultati e non ci credevamo', dice il prof. van der Gucht. Per decenni gli scienziati hanno cercato di capire questi materiali — e ora scoprono che le regole che pensavano universali... non lo sono.",
+        source: "Nature Communications / Wageningen University",
+        link: "https://www.nature.com/articles/s41467-025-68124-2"
+    }
+];
 
-        function shareContent() {
-            const shareData = {
-                title: 'ScienzaOggi - 6 Febbraio 2026',
-                text: '🔬 Le 5 scoperte scientifiche più importanti del giorno: virus e sclerosi multipla, neonati con senso del ritmo, cometa spettacolare in arrivo!',
-                url: window.location.href
-            };
-            if (navigator.share) {
-                navigator.share(shareData);
-            } else {
-                navigator.clipboard.writeText(shareData.url);
-                alert('Link copiato negli appunti!');
-            }
-        }
+function render() {
+    document.getElementById('cards').innerHTML = data.map(a => `
+        <div class="card ${a.c}" id="card${a.n}" onclick="toggle(${a.n})">
+            <div class="card-header">
+                <div class="card-top">
+                    <div class="card-icon">${a.icon}</div>
+                    <span class="card-cat">${a.cat}</span>
+                    <span class="card-num">#${a.n}</span>
+                    <span class="card-arrow">▼</span>
+                </div>
+                <h2 class="card-title">${a.title}</h2>
+                <p class="card-summary">${a.summary}</p>
+            </div>
+            <div class="card-details">
+                <div class="section-title gold">📖 SPIEGAZIONE SEMPLICE</div>
+                <div class="explain-box"><div class="explain-text">${a.explain}</div></div>
+                <div class="section-title blue">📌 I FATTI CHIAVE</div>
+                <ul class="details-list">${a.details.map(d => `<li>${d}</li>`).join('')}</ul>
+                <div class="section-title green">💡 COSA SIGNIFICA PER NOI</div>
+                <div class="implications"><p>${a.implication}</p></div>
+                <div class="curiosity"><p>${a.curiosity}</p></div>
+                <div class="card-footer">
+                    <span class="card-source">📎 ${a.source}</span>
+                    <a href="${a.link}" target="_blank" class="card-link" onclick="event.stopPropagation()">🔗 Fonte</a>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
 
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelector('.card').classList.add('expanded');
-        });
-    </script>
+function toggle(n) { document.getElementById('card'+n).classList.toggle('open'); }
+
+function condividi() {
+    const txt = `🔬 SCIENZAOGGI - 6 Febbraio 2026
+
+1. 🦠 Virus Epstein-Barr possibile causa sclerosi multipla
+2. 👶 Neonati nascono con il senso del ritmo innato
+3. ☄️ Cometa MAPS potrebbe brillare in pieno giorno
+4. 💻 Computer quantistici utili in 10 anni
+5. 🧪 Creata plastica "impossibile" che sfida la fisica
+
+👉 https://rudycen67.github.io/Scienza-oggi/`;
+    
+    if (navigator.share) { navigator.share({title: 'ScienzaOggi', text: txt}); }
+    else { navigator.clipboard.writeText(txt).then(() => {
+        const b = document.querySelector('.share-btn');
+        b.textContent = '✅ Copiato!';
+        setTimeout(() => b.innerHTML = '📤 Condividi', 2000);
+    }); }
+}
+
+render();
+document.getElementById('card1').classList.add('open');
+</script>
 </body>
 </html>
