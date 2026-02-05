@@ -3,130 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ScienzaOggi - Archivio</title>
-    <meta name="description" content="Archivio di tutte le edizioni di ScienzaOggi">
-    <meta property="og:title" content="ScienzaOggi - Archivio">
-    <meta property="og:description" content="📚 Tutte le edizioni passate di ScienzaOggi">
+    <title>ScienzaOggi - Archivio Edizioni</title>
+    <meta property="og:title" content="ScienzaOggi - Archivio Edizioni">
+    <meta property="og:description" content="Tutte le edizioni di ScienzaOggi - Le scoperte scientifiche più importanti di ogni giorno">
     <meta property="og:image" content="https://rudycen67.github.io/Scienza-oggi/cover.jpg">
     <meta property="og:url" content="https://rudycen67.github.io/Scienza-oggi/archivio.html">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(180deg, #020617 0%, #0f172a 50%, #020617 100%);
-            min-height: 100vh; padding: 16px; color: white; line-height: 1.6;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #e4e4e4;
+            padding: 20px;
         }
-        .container { max-width: 540px; margin: 0 auto; }
-        .header { text-align: center; margin-bottom: 30px; }
-        .back-btn {
-            display: inline-flex; align-items: center; gap: 6px;
-            color: #94a3b8; font-size: 13px; text-decoration: none;
-            margin-bottom: 20px; transition: color 0.2s;
+        .container { max-width: 800px; margin: 0 auto; }
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid #0f3460;
+            margin-bottom: 30px;
         }
-        .back-btn:hover { color: #22d3ee; }
-        .logo { font-size: 28px; font-weight: 900; margin: 10px 0; }
-        .logo span { color: #22d3ee; }
-        .subtitle { color: #94a3b8; font-size: 14px; }
-        .archive-grid { display: flex; flex-direction: column; gap: 12px; }
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #00d4ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #bdc3c7;
+            font-size: 1.1rem;
+        }
+        .whatsapp-banner {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .whatsapp-banner:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
+        }
+        .whatsapp-banner svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+        }
+        .whatsapp-banner span {
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        .nav-btn {
+            background: rgba(255,255,255,0.1);
+            color: #00d4ff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            border: 1px solid rgba(0,212,255,0.3);
+        }
+        .nav-btn:hover {
+            background: rgba(0,212,255,0.2);
+            transform: translateY(-2px);
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #00d4ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+        .edition-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
         .edition-card {
-            display: flex; align-items: center; gap: 16px;
-            background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px; padding: 18px; text-decoration: none;
-            transition: all 0.2s;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
         .edition-card:hover {
-            background: rgba(30, 41, 59, 0.9);
-            border-color: #22d3ee;
-            transform: translateX(4px);
+            transform: translateX(10px);
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(0,212,255,0.3);
         }
-        .edition-icon {
-            width: 50px; height: 50px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px; flex-shrink: 0;
+        .edition-card.latest {
+            border-color: rgba(0,255,136,0.5);
+            background: rgba(0,255,136,0.05);
         }
-        .edition-info { flex: 1; }
-        .edition-date { font-size: 16px; font-weight: 700; color: white; margin-bottom: 4px; }
-        .edition-preview { font-size: 13px; color: #94a3b8; line-height: 1.4; }
-        .edition-arrow { color: #475569; font-size: 18px; }
-        .edition-card:hover .edition-arrow { color: #22d3ee; }
-        
-        .latest .edition-icon { background: linear-gradient(135deg, #22d3ee, #0891b2); }
-        .latest { border-color: #22d3ee; }
-        .latest .edition-date::after {
-            content: " • ULTIMA";
-            color: #22d3ee;
-            font-size: 10px;
-            font-weight: bold;
+        .edition-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
         }
-        
-        .past .edition-icon { background: rgba(100, 116, 139, 0.3); }
-        
-        .stats {
-            display: flex; justify-content: center; gap: 30px;
-            margin: 30px 0; padding: 20px;
-            background: rgba(30, 41, 59, 0.4);
-            border-radius: 16px;
+        .edition-date {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #00d4ff;
         }
-        .stat { text-align: center; }
-        .stat-num { font-size: 24px; font-weight: 900; color: #22d3ee; }
-        .stat-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
-        
-        .footer { text-align: center; margin-top: 30px; color: #475569; font-size: 12px; }
-        .footer a { color: #22d3ee; text-decoration: none; }
+        .edition-badge {
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
+            color: #1a1a2e;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .edition-topics {
+            color: #bdc3c7;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .edition-arrow {
+            color: #00d4ff;
+            font-size: 1.5rem;
+            float: right;
+            margin-top: -30px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .stats { grid-template-columns: 1fr; }
+            body { padding: 15px; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <a href="index.html" class="back-btn">← Torna alle notizie di oggi</a>
-            <h1 class="logo">📚 ARCHIVIO <span>SCIENZAOGGI</span></h1>
-            <p class="subtitle">Tutte le edizioni passate</p>
+        <header>
+            <h1>📚 Archivio ScienzaOggi</h1>
+            <p class="subtitle">Tutte le edizioni delle scoperte scientifiche del giorno</p>
+        </header>
+
+        <a href="https://whatsapp.com/channel/0029Vb7cSa6HbFV5m8NxmR2c" target="_blank" class="whatsapp-banner">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span>📢 Iscriviti al Canale WhatsApp</span>
+        </a>
+
+        <div class="nav-buttons">
+            <a href="index.html" class="nav-btn">🏠 Ultima Edizione</a>
         </div>
-        
+
         <div class="stats">
-            <div class="stat">
-                <div class="stat-num">2</div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
                 <div class="stat-label">Edizioni</div>
             </div>
-            <div class="stat">
-                <div class="stat-num">10</div>
+            <div class="stat-card">
+                <div class="stat-number">15</div>
                 <div class="stat-label">Scoperte</div>
             </div>
-            <div class="stat">
-                <div class="stat-num">Feb 2026</div>
-                <div class="stat-label">Inizio</div>
+            <div class="stat-card">
+                <div class="stat-number">1 Feb</div>
+                <div class="stat-label">Prima Edizione</div>
             </div>
         </div>
-        
-        <div class="archive-grid">
-            <!-- ULTIMA EDIZIONE -->
-            <a href="2026-02-02.html" class="edition-card latest">
-                <div class="edition-icon">🔬</div>
-                <div class="edition-info">
-                    <div class="edition-date">2 Febbraio 2026</div>
-                    <div class="edition-preview">🤖 AI guida rover su Marte • 🌙 Robot in grotte lunari • 🌊 800 specie oceaniche...</div>
+
+        <div class="edition-list">
+            <a href="2026-02-06.html" class="edition-card latest">
+                <div class="edition-header">
+                    <span class="edition-date">📅 6 Febbraio 2026</span>
+                    <span class="edition-badge">✨ NUOVA</span>
                 </div>
-                <div class="edition-arrow">→</div>
+                <p class="edition-topics">Virus Epstein-Barr e sclerosi multipla • Neonati nati con senso del ritmo • Cometa spettacolare in arrivo • Computer quantistici entro 10 anni • Plastica "impossibile" creata</p>
+                <span class="edition-arrow">→</span>
             </a>
-            
-            <!-- EDIZIONI PRECEDENTI -->
-            <a href="2026-02-01.html" class="edition-card past">
-                <div class="edition-icon">🔬</div>
-                <div class="edition-info">
-                    <div class="edition-date">1 Febbraio 2026</div>
-                    <div class="edition-preview">🫁 Polmone artificiale • 💡 Chip fotonici cinesi • 🧬 AlphaGenome • 🚀 Artemis II...</div>
+
+            <a href="2026-02-02.html" class="edition-card">
+                <div class="edition-header">
+                    <span class="edition-date">📅 2 Febbraio 2026</span>
                 </div>
-                <div class="edition-arrow">→</div>
+                <p class="edition-topics">Rover AI su Marte • Robot nei tubi lavici lunari • 800 nuove specie oceaniche • Batteri SAR11 • Esperimento MACE sull'antimateria</p>
+                <span class="edition-arrow">→</span>
+            </a>
+
+            <a href="2026-02-01.html" class="edition-card">
+                <div class="edition-header">
+                    <span class="edition-date">📅 1 Febbraio 2026</span>
+                </div>
+                <p class="edition-topics">Polmone artificiale • Chip fotonici • AlphaGenome • Artemis II • Exercise snacks</p>
+                <span class="edition-arrow">→</span>
             </a>
         </div>
-        
-        <div class="footer">
-            <p>Nuova edizione ogni giorno</p>
-            <p style="margin-top: 8px;"><a href="index.html">🏠 Vai alla home</a></p>
-        </div>
+
+        <footer>
+            <p>ScienzaOggi — La scienza spiegata semplice, ogni giorno</p>
+            <p style="margin-top: 10px;">© 2026</p>
+        </footer>
     </div>
 </body>
 </html>
