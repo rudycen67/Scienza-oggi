@@ -1,0 +1,35 @@
+COME CREARE L'ESEGUIBILE WINDOWS (.exe)
+=======================================
+
+L'exe va creato sul TUO PC Windows (una volta sola). Poi potrai usarlo
+senza Python e passarlo ad altri PC Windows.
+
+PASSI
+-----
+1. Installa Python 3 da https://www.python.org/downloads/
+   IMPORTANTE: durante l'installazione spunta "Add Python to PATH".
+
+2. Tieni nella stessa cartella questi file:
+     mifare_reader_gui.py
+     mifare_classic_keys.py
+     mifare_report.py
+     mifare_milano.py
+     build_exe.bat
+
+3. Doppio clic su "build_exe.bat" e attendi qualche minuto.
+
+4. Alla fine troverai l'eseguibile in:   dist\LettoreMifare.exe
+   Avvialo con doppio clic. Funziona senza installare altro.
+
+L'EXE FA LE STESSE IDENTICHE LETTURE DEL PROGRAMMA
+--------------------------------------------------
+L'exe contiene esattamente lo stesso codice Python: interpreta i dump
+in modo identico. NON cambia nulla nella logica di lettura.
+
+NOTA IMPORTANTE: COSA "LEGGE" IL PROGRAMMA
+------------------------------------------
+Il programma (sia .py sia .exe) legge un FILE DUMP, cioe' un file gia'
+estratto dalla carta con un lettore hardware (Proxmark3, telefono
+Android con app NFC, lettore ACR122U, ecc.). Non legge la carta fisica
+da solo: serve prima il lettore per creare il dump, poi questo programma
+lo apre e lo traduce.
