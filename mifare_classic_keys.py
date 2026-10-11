@@ -480,6 +480,37 @@ class ClassicAccessBits:
         # KeyB è leggibile (quindi inutilizzabile come chiave) per certi slot.
         return self._slot(3) in (0, 1, 2)
 
+    def slot_value(self, slot: int) -> int:
+        """Valore (0..7) dei 3 bit di accesso dello slot indicato (pubblico)."""
+        return self._slot(slot)
+
+    def permessi_blocco_dati(self, slot: int) -> Optional[dict]:
+        """
+        Traduce i 3 bit di accesso di un BLOCCO DATI nei permessi concreti.
+        Restituisce un dizionario con chiavi: read, write, increment, decrement.
+        Ogni valore è una fra: "mai", "KeyA", "KeyB", "KeyA|KeyB".
+
+        LOGICA: con KeyB leggibile, KeyB non può più essere usata come chiave,
+        quindi i permessi "KeyA|KeyB" diventano solo "KeyA" e i "KeyB" "mai".
+        """
+        ab = "KeyA" if self.is_key_b_readable else "KeyA|KeyB"
+        b = "mai" if self.is_key_b_readable else "KeyB"
+        mai = "mai"
+        tabella = {
+            0: (ab, ab, ab, ab),
+            1: (ab, mai, mai, ab),
+            2: (ab, mai, mai, mai),
+            3: (b, b, mai, mai),
+            4: (ab, b, mai, mai),
+            5: (b, mai, mai, mai),
+            6: (ab, b, b, ab),
+            7: (mai, mai, mai, mai),
+        }
+        v = tabella.get(self.slot_value(slot))
+        if v is None:
+            return None
+        return {"read": v[0], "write": v[1], "increment": v[2], "decrement": v[3]}
+
     @staticmethod
     def is_valid(raw3: bytes) -> bool:
         """

@@ -31,8 +31,10 @@ from __future__ import annotations
 import os
 from typing import Optional, List
 
-# Il modulo con tutta la logica di lettura deve stare nella stessa cartella.
+# I moduli con la logica di lettura e con il report devono stare nella
+# stessa cartella di questo file.
 import mifare_classic_keys as mfc
+import mifare_report as report
 
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, scrolledtext
@@ -207,6 +209,10 @@ class App(tk.Tk):
                    command=self._apri_chiavi).pack(side=tk.LEFT, padx=4)
         ttk.Button(barra, text="Salva report...",
                    command=self._salva_report).pack(side=tk.LEFT, padx=4)
+        ttk.Button(barra, text="Salva spiegazione (testo)...",
+                   command=self._salva_spiegazione_testo).pack(side=tk.LEFT, padx=4)
+        ttk.Button(barra, text="Salva spiegazione (HTML)...",
+                   command=self._salva_spiegazione_html).pack(side=tk.LEFT, padx=4)
         ttk.Button(barra, text="Pulisci",
                    command=self._pulisci).pack(side=tk.LEFT, padx=4)
 
@@ -293,6 +299,42 @@ class App(tk.Tk):
         with open(percorso, "w", encoding="utf-8") as f:
             f.write(contenuto)
         self._stato.config(text=f"Report salvato: {percorso}")
+
+    def _salva_spiegazione_testo(self):
+        """Genera e salva il report esplicativo in formato testo."""
+        if self._card is None:
+            messagebox.showinfo("Niente da spiegare", "Apri prima un dump.")
+            return
+        percorso = filedialog.asksaveasfilename(
+            title="Salva la spiegazione (testo)",
+            defaultextension=".txt",
+            initialfile="spiegazione_carta.txt",
+            filetypes=[("File di testo", "*.txt"), ("Tutti i file", "*.*")],
+        )
+        if not percorso:
+            return
+        testo = report.report_testo(self._card, self._chiavi)
+        with open(percorso, "w", encoding="utf-8") as f:
+            f.write(testo)
+        self._stato.config(text=f"Spiegazione (testo) salvata: {percorso}")
+
+    def _salva_spiegazione_html(self):
+        """Genera e salva il report esplicativo in formato HTML (explorer)."""
+        if self._card is None:
+            messagebox.showinfo("Niente da spiegare", "Apri prima un dump.")
+            return
+        percorso = filedialog.asksaveasfilename(
+            title="Salva la spiegazione (HTML)",
+            defaultextension=".html",
+            initialfile="spiegazione_carta.html",
+            filetypes=[("Pagina HTML", "*.html"), ("Tutti i file", "*.*")],
+        )
+        if not percorso:
+            return
+        pagina = report.report_html(self._card, self._chiavi)
+        with open(percorso, "w", encoding="utf-8") as f:
+            f.write(pagina)
+        self._stato.config(text=f"Spiegazione (HTML) salvata: {percorso}")
 
     def _pulisci(self):
         self._card = None
