@@ -27,8 +27,8 @@ lettura.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import date, timedelta
-from typing import Dict, List, Optional
+from datetime import date, datetime, timedelta
+from typing import Dict, List, Optional, Tuple
 
 import mifare_classic_keys as mfc
 
@@ -373,6 +373,18 @@ BLOCK_1_1_FIELDS = Container(
     FixedHex("EnvUnknownE", 49),
 )
 
+# --- lista dei contratti (settori 14 e 15, blocco 2) ------------------
+# Un contatore a 4 bit indica quanti contratti seguono; ognuno riporta
+# tariffa e puntatore al relativo slot.
+CONTRACT_LIST_FIELDS = Container(
+    Repeat(4, Container(
+        FixedInteger("ContractsUnknownA", 3),
+        FixedInteger("ContractsTariff", 16),
+        FixedInteger("ContractsUnknownB", 5),
+        FixedInteger("ContractsPointer", 4),
+    ))
+)
+
 
 # ======================================================================
 # 5) RICONOSCIMENTO E DECODIFICA
@@ -400,23 +412,95 @@ def riconosce(card: mfc.ClassicCard) -> bool:
         return False
 
 
+# --- tabella dei nomi di fermate/stazioni note -----------------------
+# Chiave = reader_id, cioè: (tipo_trasporto << 24) | id_stazione.
+# Questi sono i nomi curati del circuito (metro ATM e stazioni Trenord).
+# Le fermate degli autobus, molto numerose, derivano invece dal feed GTFS
+# cittadino e non sono incorporate qui: per quelle si mostra il numero.
+STATION_NAMES: Dict[int, str] = {
+    0x1000331: "Lampugnano",
+    0x1000364: "Caiazzo",
+    0x100036C: "Porta Genova FS",
+    0x1000374: "Maciachini",
+    0x100038A: "Affori Centro",
+    0x100039B: "Duomo",
+    0x100039D: "Duomo",
+    0x100039F: "Centrale FS",
+    0x10003A0: "Centrale FS",
+    0x10003A3: "Loreto",
+    0x10003B5: "Istria",
+    0x10003B6: "Marche",
+    0x10003B7: "Zara",
+    0x900051A: "Garibaldi FS",
+    0x7000541: "Sesto 1° Maggio FS",
+    0x90004A6: "Malpensa T1",
+    0x90004B8: "Galliate FN",
+}
+
+
+def nome_stazione(station_id: Optional[int], transport: int) -> Optional[str]:
+    """
+    Traduce un numero di stazione nel nome, se noto.
+
+    PROCEDIMENTO: l'identificativo usato nel database è dato da
+      reader_id = (tipo_trasporto << 24) | id_stazione.
+    """
+    if not station_id:
+        return None
+    reader_id = (station_id & 0xFFFFFF) | ((transport & 0xFF) << 24)
+    return STATION_NAMES.get(reader_id)
+
+
+# ======================================================================
+# 5b) MODELLO: TRANSAZIONE, VIAGGIO, ABBONAMENTO, CONTRATTO
+# ======================================================================
+
 @dataclass
-class Viaggio:
-    data: Optional[date]
-    ora: str
+class Transazione:
+    """Una singola timbratura (evento) letta da uno slot viaggio."""
+    quando: Optional[datetime]
+    transport: int
     mezzo: str
     linea: Optional[str]
-    luogo: Optional[int]
-    tipo: str  # "ingresso", "uscita", ...
+    stazione_id: Optional[int]
+    stazione_nome: Optional[str]
+    is_ingresso: bool
+    is_uscita: bool
+    rifiutata: bool
+    veicolo: Optional[int]
+    contatore: Optional[int]
     raw: _Holder = field(default=None, repr=False)
+
+
+@dataclass
+class Viaggio:
+    """Un viaggio: ingresso e (se presente) uscita uniti insieme."""
+    inizio: Optional[Transazione]
+    fine: Optional[Transazione]
+
+    @property
+    def principale(self) -> Transazione:
+        return self.inizio or self.fine
 
 
 @dataclass
 class Abbonamento:
     tariffa: str
+    tariffa_id: int
     validita_da: Optional[date]
     validita_a: Optional[date]
     rimanenti: Optional[str]
+    numero_serie: Optional[int]
+    ultimo_uso: Optional[date]
+    raw: _Holder = field(default=None, repr=False)
+
+
+@dataclass
+class Contratto:
+    """Una voce della lista contratti (settori 14/15)."""
+    tariffa: str
+    tariffa_id: int
+    puntatore: int
 
 
 def _blocco(card: mfc.ClassicCard, sec: int, blk: int) -> bytes:
@@ -430,7 +514,7 @@ def _blocco(card: mfc.ClassicCard, sec: int, blk: int) -> bytes:
         return bytes(16)
 
 
-def _mezzo_e_modo(h: _Holder):
+def _mezzo(h: _Holder) -> str:
     """Determina il mezzo di trasporto a partire dai campi letti."""
     tb = h.get_int0("TransportTypeB")
     ta = h.get_int0("TransportTypeA")
@@ -458,16 +542,7 @@ def _linea(h: _Holder) -> Optional[str]:
     return str(rn)
 
 
-def _tipo_timbratura(h: _Holder) -> str:
-    t = h.get_int0("TransactionType")
-    if t in (TRANSACTION_TAP_ON, TRANSACTION_TAP_ON_TRANSFER):
-        return "ingresso"
-    if t == TRANSACTION_TAP_OFF:
-        return "uscita"
-    return "timbratura"
-
-
-def _decodifica_viaggio(trip_data: bytes) -> Viaggio:
+def _decodifica_transazione(trip_data: bytes) -> Transazione:
     h = _parse(trip_data, TRIP_FIELDS)
 
     # Ricostruzione data/ora: la data è quella del "primo timbro"; se l'ora
@@ -477,20 +552,68 @@ def _decodifica_viaggio(trip_data: bytes) -> Viaggio:
     ev_time = h.get_int0("EventTimeLocal")
     d = first_date + 1 if ev_time < first_time else first_date
 
+    giorno = giorni_a_data(d)
+    quando = None
+    if giorno is not None:
+        quando = datetime(giorno.year, giorno.month, giorno.day,
+                          ev_time // 60, ev_time % 60)
+
+    transport = h.get_int0("TransportTypeB")
+    mezzo = _mezzo(h)
     luogo = h.get_int("EventLocationId")
-    mezzo = _mezzo_e_modo(h)
     if mezzo == "Autobus" and luogo == 999:
         luogo = None
 
-    return Viaggio(
-        data=giorni_a_data(d),
-        ora=minuti_a_ora(ev_time),
+    tt = h.get_int0("TransactionType")
+    veicolo = h.get_int("EventVehicleId")
+    contatore = h.get_int("TransactionCounter")
+
+    return Transazione(
+        quando=quando,
+        transport=transport,
         mezzo=mezzo,
         linea=_linea(h),
-        luogo=luogo,
-        tipo=_tipo_timbratura(h),
+        stazione_id=luogo,
+        stazione_nome=nome_stazione(luogo, transport),
+        is_ingresso=tt in (TRANSACTION_TAP_ON, TRANSACTION_TAP_ON_TRANSFER),
+        is_uscita=(tt == TRANSACTION_TAP_OFF),
+        rifiutata=(h.get_int0("EventResult") != 0),
+        veicolo=veicolo if veicolo else None,
+        contatore=contatore,
         raw=h,
     )
+
+
+def _stesso_viaggio(a: Transazione, b: Transazione) -> bool:
+    """Ingresso e uscita appartengono allo stesso viaggio (solo metro/treno)."""
+    return (a.transport in (TRANSPORT_METRO, TRANSPORT_TRENORD1, TRANSPORT_TRENORD2)
+            and b.transport == a.transport)
+
+
+def _unisci_viaggi(transazioni: List[Transazione]) -> List[Viaggio]:
+    """
+    Accoppia ingresso + uscita dello stesso viaggio in un'unica voce,
+    ordinando per orario. Le timbrature senza data restano singole.
+    """
+    temporizzate = [t for t in transazioni if t.quando is not None]
+    senza_data = [t for t in transazioni if t.quando is None]
+    temporizzate.sort(key=lambda t: t.quando)
+
+    viaggi: List[Viaggio] = []
+    for t in temporizzate:
+        if not viaggi:
+            viaggi.append(Viaggio(None, t) if t.is_uscita else Viaggio(t, None))
+            continue
+        prec = viaggi[-1]
+        if (prec.fine is None and prec.inizio is not None
+                and prec.inizio.is_ingresso and t.is_uscita
+                and _stesso_viaggio(prec.inizio, t)):
+            prec.fine = t
+        else:
+            viaggi.append(Viaggio(None, t) if t.is_uscita else Viaggio(t, None))
+
+    viaggi += [Viaggio(None, t) if t.is_uscita else Viaggio(t, None) for t in senza_data]
+    return viaggi
 
 
 def _seleziona_slot(sub0: bytes, sub1: bytes) -> int:
@@ -543,23 +666,44 @@ def _decodifica_abbonamento(data: bytes, counter: bytes, xdata: bytes) -> Abbona
     elif tariffa_id == TARIFF_DAILY_URBAN:
         rimanenti = f"{cnt} giorni rimanenti"
 
-    return Abbonamento(tariffa=nome, validita_da=da, validita_a=a, rimanenti=rimanenti)
+    serie = h.get_int("ContractSerialNumber")
+    return Abbonamento(
+        tariffa=nome, tariffa_id=tariffa_id, validita_da=da, validita_a=a,
+        rimanenti=rimanenti, numero_serie=serie if serie else None,
+        ultimo_uso=giorni_a_data(h.get_int0("ContractLastUseDate")), raw=h)
+
+
+def _decodifica_lista_contratti(block: bytes) -> List[Contratto]:
+    """Legge la lista contratti (contatore a 4 bit + voci)."""
+    h = _parse(block, CONTRACT_LIST_FIELDS)
+    contratti: List[Contratto] = []
+    i = 0
+    while h.contains("ContractsTariff", f"/{i}"):
+        tid = h.get_int0("ContractsTariff", f"/{i}")
+        if tid != 0:
+            contratti.append(Contratto(
+                tariffa=TARIFFE.get(tid, f"0x{tid:x}"),
+                tariffa_id=tid,
+                puntatore=h.get_int0("ContractsPointer", f"/{i}")))
+        i += 1
+    return contratti
 
 
 def leggi_milano(card: mfc.ClassicCard):
     """
-    Estrae viaggi e abbonamenti da una carta RicaricaMi già letta.
-    Restituisce (viaggi, abbonamenti, intestazione).
+    Estrae tutto da una carta RicaricaMi già letta.
+    Restituisce (viaggi, abbonamenti, intestazione, contratti).
     """
-    # --- viaggi (6 slot nei settori a partire dal blocco 32) ----------
-    viaggi: List[Viaggio] = []
+    # --- transazioni di viaggio (6 slot, blocchi a partire dal 32) ----
+    transazioni: List[Transazione] = []
     for i in range(6):
         base = 0xA * 3 + 2 + i * 2          # 32, 34, 36, ...
         d0 = _blocco(card, base // 3, base % 3)
         d1 = _blocco(card, (base + 1) // 3, (base + 1) % 3)
         trip_data = d0 + d1
         if any(x != 0 for x in trip_data):
-            viaggi.append(_decodifica_viaggio(trip_data))
+            transazioni.append(_decodifica_transazione(trip_data))
+    viaggi = _unisci_viaggi(transazioni)
 
     # --- abbonamenti (settori 6,7,8 + un caso speciale nel settore 9) --
     abbonamenti: List[Abbonamento] = []
@@ -593,22 +737,40 @@ def leggi_milano(card: mfc.ClassicCard):
     except Exception:
         pass
 
-    return viaggi, abbonamenti, intestazione
+    # --- lista contratti (settori 14 e 15, blocco 2) ------------------
+    contratti: List[Contratto] = []
+    for sec in (14, 15):
+        try:
+            contratti += _decodifica_lista_contratti(_blocco(card, sec, 2))
+        except Exception:
+            pass
+
+    return viaggi, abbonamenti, intestazione, contratti
 
 
 # ======================================================================
 # 6) TESTO LEGGIBILE
 # ======================================================================
 
-def descrivi(card: mfc.ClassicCard) -> Optional[str]:
+def _fmt_transazione(t: Transazione) -> str:
+    ora = t.quando.strftime("%H:%M") if t.quando else "??:??"
+    linea = f" linea {t.linea}" if t.linea else ""
+    dove = t.stazione_nome or (f"#{t.stazione_id}" if t.stazione_id else "")
+    dove = f" — {dove}" if dove else ""
+    rif = " [RIFIUTATA]" if t.rifiutata else ""
+    return f"{ora} {t.mezzo}{linea}{dove}{rif}"
+
+
+def descrivi(card: mfc.ClassicCard, grezzi: bool = False) -> Optional[str]:
     """
     Se la carta è una RicaricaMi, restituisce una descrizione leggibile
-    (viaggi e abbonamenti). Altrimenti None.
+    con viaggi, abbonamenti, contratti e intestazione. Altrimenti None.
+    Con grezzi=True aggiunge anche il dump di tutti i campi letti.
     """
     if not riconosce(card):
         return None
 
-    viaggi, abbonamenti, intest = leggi_milano(card)
+    viaggi, abbonamenti, intest, contratti = leggi_milano(card)
     r: List[str] = []
     r.append("╔══════════════════════════════════════════════════════╗")
     r.append("║   CARTA MILANO — RICARICAMI (ATM / Trenord)            ║")
@@ -631,27 +793,60 @@ def descrivi(card: mfc.ClassicCard) -> Optional[str]:
         for i, a in enumerate(abbonamenti, 1):
             r.append(f"  {i}. {a.tariffa}")
             if a.validita_da:
-                r.append(f"       valido dal : {a.validita_da.isoformat()}")
+                r.append(f"       valido dal   : {a.validita_da.isoformat()}")
             if a.validita_a:
-                r.append(f"       valido al  : {a.validita_a.isoformat()}")
+                r.append(f"       valido al    : {a.validita_a.isoformat()}")
             if a.rimanenti:
-                r.append(f"       residuo    : {a.rimanenti}")
+                r.append(f"       residuo      : {a.rimanenti}")
+            if a.ultimo_uso:
+                r.append(f"       ultimo uso   : {a.ultimo_uso.isoformat()}")
+            if a.numero_serie:
+                r.append(f"       n. serie     : {a.numero_serie}")
     else:
         r.append("  (nessun titolo attivo rilevato)")
     r.append("")
 
-    # Viaggi.
+    # Lista contratti.
+    if contratti:
+        r.append("── LISTA CONTRATTI ───────────────────────────────────")
+        for i, c in enumerate(contratti, 1):
+            r.append(f"  {i}. {c.tariffa}  (slot {c.puntatore})")
+        r.append("")
+
+    # Viaggi (ingresso + uscita uniti).
     r.append("── ULTIMI VIAGGI ─────────────────────────────────────")
     if viaggi:
         for i, v in enumerate(viaggi, 1):
-            data_s = v.data.isoformat() if v.data else "??"
-            linea_s = f" linea {v.linea}" if v.linea else ""
-            luogo_s = f" — fermata/stazione #{v.luogo}" if v.luogo else ""
-            r.append(f"  {i}. {data_s} {v.ora}  [{v.tipo}]  {v.mezzo}{linea_s}{luogo_s}")
+            data = v.principale.quando
+            data_s = data.date().isoformat() if data else "??"
+            if v.inizio and v.fine:
+                r.append(f"  {i}. {data_s}  da [{_fmt_transazione(v.inizio)}]")
+                r.append(f"              a  [{_fmt_transazione(v.fine)}]")
+            elif v.inizio:
+                r.append(f"  {i}. {data_s}  ingresso: {_fmt_transazione(v.inizio)}")
+            else:
+                r.append(f"  {i}. {data_s}  uscita:   {_fmt_transazione(v.fine)}")
     else:
         r.append("  (nessun viaggio registrato)")
     r.append("")
-    r.append("Nota: alcuni campi del formato non sono pubblicamente")
-    r.append("documentati; i valori mostrati sono quelli interpretabili")
-    r.append("con certezza.")
+
+    # Dump dei campi grezzi (opzionale).
+    if grezzi:
+        r.append("── CAMPI GREZZI (tutti i valori letti) ────────────────")
+        for idx, v in enumerate(viaggi, 1):
+            t = v.principale
+            if t.raw:
+                r.append(f"  viaggio {idx}:")
+                for k in sorted(t.raw.map):
+                    r.append(f"     {k} = {t.raw.map[k]}")
+        for idx, a in enumerate(abbonamenti, 1):
+            if a.raw:
+                r.append(f"  abbonamento {idx}:")
+                for k in sorted(a.raw.map):
+                    r.append(f"     {k} = {a.raw.map[k]}")
+        r.append("")
+
+    r.append("Nota: i nomi delle fermate note (metro e stazioni Trenord)")
+    r.append("sono inclusi; le fermate bus mostrano il numero, perché")
+    r.append("derivano dal feed cittadino non incorporato nel programma.")
     return "\n".join(r)
