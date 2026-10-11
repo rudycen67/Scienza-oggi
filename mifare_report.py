@@ -25,6 +25,12 @@ from typing import Optional, List
 
 import mifare_classic_keys as mfc
 
+# Decoder per carte specifiche (opzionale: se assente, si procede senza).
+try:
+    import mifare_milano as milano
+except Exception:  # pragma: no cover
+    milano = None
+
 
 # ======================================================================
 # TESTI DIDATTICI RIUTILIZZABILI
@@ -123,6 +129,18 @@ def report_testo(card: mfc.ClassicCard,
     r.append("dalla carta, cosa significa ogni dato e con quale procedimento")
     r.append("è stato interpretato.")
     r.append("")
+
+    # --- lettura specifica della carta (se riconosciuta) -------------
+    if milano is not None:
+        try:
+            milano_txt = milano.descrivi(card)
+        except Exception:
+            milano_txt = None
+        if milano_txt:
+            r += _box("LETTURA DELLA CARTA (DATI TRADOTTI)")
+            r.append("")
+            r.append(milano_txt)
+            r.append("")
 
     # --- come è fatta la carta ---------------------------------------
     r.append("┌─ COME È FATTA UNA CARTA MIFARE CLASSIC " + "─" * 30)
@@ -336,6 +354,20 @@ def report_html(card: mfc.ClassicCard,
       <div>MAD</div><div>{'presente' if mad else 'non rilevato'}</div>
     </div>
   </div>
+""")
+
+    # Lettura specifica (se riconosciuta), in evidenza e aperta.
+    if milano is not None:
+        try:
+            milano_txt = milano.descrivi(card)
+        except Exception:
+            milano_txt = None
+        if milano_txt:
+            parti.append(f"""
+  <details open>
+    <summary><span class="tri">▶</span><b>Lettura della carta (dati tradotti)</b></summary>
+    <div class="body"><div class="algo">{esc(milano_txt)}</div></div>
+  </details>
 """)
 
     # Sezione "come è fatta".

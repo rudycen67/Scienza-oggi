@@ -35,6 +35,7 @@ from typing import Optional, List
 # stessa cartella di questo file.
 import mifare_classic_keys as mfc
 import mifare_report as report
+import mifare_milano as milano
 
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, scrolledtext
@@ -354,6 +355,14 @@ class App(tk.Tk):
             if self._chiavi is not None:
                 self._testo.insert(tk.END, self._solo_chiavi(self._chiavi))
             return
+        # Se la carta è riconosciuta come RicaricaMi (Milano), mostriamo
+        # in cima la lettura "tradotta" (viaggi e abbonamenti).
+        try:
+            milano_txt = milano.descrivi(self._card)
+        except Exception:
+            milano_txt = None
+        if milano_txt:
+            self._testo.insert(tk.END, milano_txt + "\n\n\n")
         testo = traduci_carta(self._card, self._chiavi)
         self._testo.insert(tk.END, testo)
 
